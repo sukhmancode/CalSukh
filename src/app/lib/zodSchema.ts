@@ -31,3 +31,11 @@ export const settingsSchema = z.object({
 export const availabilitySchema = z.object({
     
 })
+
+export const eventTypeSchema = z.object({
+    title:z.string().min(3).max(150),
+    duration:z.number().min(15).max(60),
+    url:z.string().min(3).max(150),
+    description:z.string().min(3),
+    videoCallSoftware:z.string().min(3)
+})
