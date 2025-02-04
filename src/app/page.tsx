@@ -1,17 +1,36 @@
-import Image from "next/image";
-import { Navbar } from "./components/Navbar";
-import { auth } from "./lib/auth";
-import { redirect } from "next/navigation";
-
+import Image from 'next/image';
+import { Navbar } from './components/Navbar';
+import { auth } from './lib/auth';
+import { redirect } from 'next/navigation';
+import { Hero } from './UIcomponents/Hero';
+import { CompanyShow } from './UIcomponents/CompanyShow';
+import { Scheduler } from './UIcomponents/Scheduler';
 
 export default async function Home() {
   const session = await auth();
-  if(session?.user) {
-    return redirect("/dashboard")
+  if (session?.user) {
+    return redirect('/dashboard');
   }
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-1">
-      <Navbar />
-    </div>
+    <>
+
+      {/* Navbar and Hero Section */}
+      <div className=" mx-auto px-4 flex flex-col justify-center items-center sm:px-6 lg:px-1"       style={{
+            backgroundImage: `
+              linear-gradient(to right, rgb(229 231 235 / 0.2) 1px, transparent 1px),
+              linear-gradient(to bottom, rgb(229 231 235 / 0.2) 1px, transparent 1px)
+            `,
+            backgroundSize: '24px 24px',
+          }}>
+            <div className='max-w-7xl'>
+            <Navbar />
+            <Hero />
+            <CompanyShow />
+            <Scheduler />
+            </div>
+       
+      </div>
+    </>
   );
 }
