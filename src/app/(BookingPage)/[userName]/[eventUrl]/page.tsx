@@ -12,6 +12,9 @@ interface BookingFormProps {
       userName: string;
       eventUrl: string;
     };
+    searchParams: {
+        date?:string
+    }
   }
 
 async function getData(eventUrl: string, userName: string) {
@@ -51,8 +54,10 @@ async function getData(eventUrl: string, userName: string) {
 
 }
 
-export default async function BookingForm({ params }:BookingFormProps) {
+export default async function BookingForm({ params,searchParams }:BookingFormProps) {
     const data = await getData(params.eventUrl,params.userName);
+    const selectedDate = searchParams.date ? new Date(searchParams.date) : new Date();
+    const formattedDate = new Intl.DateTimeFormat("en-US", {weekday:"long",day:"numeric","month":"long"}).format(selectedDate)
 
     return(
         <div className="min-h-screen flex items-center justify-center">
@@ -67,7 +72,7 @@ export default async function BookingForm({ params }:BookingFormProps) {
                     <div className="mt-5 flex flex-col gap-y-3">
                         <div className="flex">
                             <p><CalendarX2 className="size-4 mr-2 text-primary"/></p>
-                            <span className="text-sm text-muted-foreground">{Date.now()}</span>
+                            <span className="text-sm text-muted-foreground">{formattedDate}</span>
                         </div>
                         <div className="flex">
                             <p><Clock className="size-4 mr-2 text-primary"/></p>
@@ -81,7 +86,8 @@ export default async function BookingForm({ params }:BookingFormProps) {
                     </div>
                 </div>
                     <Separator orientation="vertical" className="h-full w-[1px]"/>
-                    <RenderCalendar/>
+                        <RenderCalendar availability={data.user?.availabilty as any}/>
+                    <Separator orientation="vertical" className="h-full w-[1px]"/>
                     
                 </CardContent>
                 

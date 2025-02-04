@@ -7,40 +7,42 @@ import { cn } from "@/lib/utils";
 export function CalendarCell({
     state,
     date,
-    currentMonth
+    currentMonth,
+    isUnavailable
 }: {
     state: CalendarState;
     date: CalendarDate;
     currentMonth: CalendarDate;
+    isUnavailable?:boolean
 }) {
     let ref = useRef(null);
     let {
         cellProps,
         buttonProps,
         isSelected,
-        isOutsideVisibleRange,
         isDisabled,
-        isUnavailable,
         formattedDate,
     } = useCalendarCell({ date }, state, ref);
 
     const { focusProps, isFocusVisible } = useFocusRing();
     const isDateToday = isToday(date, getLocalTimeZone());
     const isOutsideMonth = !isSameMonth(currentMonth, date); // Fixed logic
+    const finallyDisabled = isDisabled || isUnavailable
 
     return (
         <td {...cellProps} className={`py-0.5 px-0.5 relative ${isFocusVisible ? "z-10" : "z-0"}`}>
             <div
                 {...mergeProps(buttonProps, focusProps)}
                 ref={ref}
-                className="size-10 sm:size-12 outline-none group rounded-md"
+                className={cn("size-10 sm:size-12 outline-none group rounded-md",!finallyDisabled ? "bg-secondary" : "")}
+                aria-disabled={finallyDisabled}
             >
                 <div
                     className={cn(
                         "size-full rounded-sm flex items-center justify-center text-sm font-semibold",
-                        isSelected ? "bg-primary text-white" : "text-primary",
-                        isDisabled ? "text-muted-foreground cursor-not-allowed" : "",
-                        !isSelected && !isDisabled ? "hover:bg-primary/10" : "",
+                        isSelected && !finallyDisabled ? "bg-primary text-white" : "text-primary",
+                        finallyDisabled ? "text-muted-foreground cursor-not-allowed" : "",
+                        !isSelected && !finallyDisabled ? "hover:bg-primary/10" : "",
                         isOutsideMonth ? "opacity-50" : "" 
                     )}
                 >
