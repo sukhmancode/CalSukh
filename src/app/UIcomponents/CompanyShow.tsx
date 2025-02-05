@@ -1,4 +1,3 @@
-"use client"
 import Image from "next/image";
 import DeelLogo from "../../../public/1726142372-deel-1.svg";
 import VercelLogo from "../../../public/1726142372-vercel-logo.svg";
@@ -15,42 +14,29 @@ const companyImages = [
 
 export const CompanyShow = () => {
   return (
-    <div className="">
-      <p className="text-center text-white text-lg font-semibold mb-4">
+    <div className="flex items-center self-center justify-center flex-row mt-10 ">
+      <p className="text-center text-lg font-semibold mb-4">
         Trusted by fast-growing companies around the world
       </p>
 
       <div className="relative w-full flex whitespace-nowrap">
-        <div className="flex animate-scroll items-center justify-center">
-          {companyImages.concat(companyImages).map((company) => (
-            <div key={company.id} className="relative h-12 gap-5 flex">
-              <Image
-                src={company.img}
-                alt={company.name}
-                className="brightness-0 invert size-56 "
-              />
-            </div>
-          ))}
+        <div className="flex animate-scroll items-center justify-center gap-6">
+          {companyImages
+            .concat(companyImages.map((company, index) => ({
+              ...company,
+              id: company.id + companyImages.length,
+            })))
+            .map((company) => (
+              <div key={company.id} className="flex relative gap-8 flex-wrap ">
+                <Image
+                  src={company.img}
+                  alt={company.name}
+                  className="invert"
+                />
+              </div>
+            ))}
         </div>
       </div>
-
-      {/* Styling for scrolling effect */}
-      <style jsx>{`
-        @keyframes scroll {
-          from {
-            transform: translateX(0%);
-          }
-          to {
-            transform: translateX(-50%);
-          }
-        }
-
-        .animate-scroll {
-          display: flex;
-          animation: scroll 10s linear infinite;
-          width: 200%; /* Ensures smooth loop */
-        }
-      `}</style>
     </div>
   );
 };

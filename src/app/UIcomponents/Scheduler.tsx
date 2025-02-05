@@ -1,4 +1,7 @@
 "use client"
+
+import { Switch } from "@/components/ui/switch"
+
 export function Scheduler() {
     return (
         <section className="mx-3 md:mx-0">
@@ -22,11 +25,11 @@ export function Scheduler() {
                       />
                     </svg>
                   </span>
-                  <p className="text-xs text-[#242424]">How it works</p>
+                  <p className="text-xs">How it works</p>
                 </span>
               </span>
             </div>
-            <h1 className="font-cal !leading-xs md:!leading-h1 text-[32px] lg:text-5xl pb-3">
+            <h1 className="font-cal !leading-xs md:!leading-h1 font-semibold lg:text-5xl pb-3">
               <span
                 data-br=":rb:"
                 data-brr={1}
@@ -332,22 +335,14 @@ export function Scheduler() {
                       <div className="col-span-4 grid grid-cols-[subgrid] items-center gap-2">
                         <div>
                           <div className="flex h-auto w-auto flex-row items-center">
-                            <button
-                              type="button"
-                              role="switch"
-                              aria-checked="false"
-                              data-state="unchecked"
-                              data-disabled=""
-                              value="on"
-                              className="bg-emphasis cursor-not-allowed h-5 w-[34px] rounded-full shadow-none transition focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-neutral-800 focus:ring-offset-1"
-                            >
+          
+                              <Switch/>
                               <span
                                 data-state="unchecked"
                                 data-disabled=""
                                 id="radix-:rc:"
                                 className="h-[14px] w-[14px] ltr:translate-x-[4px] rtl:-translate-x-[4px] ltr:[&[data-state='checked']]:translate-x-[17px] rtl:[&[data-state='checked']]:-translate-x-[17px] block rounded-full transition will-change-transform bg-default"
                               />
-                            </button>
                           </div>
                         </div>
                         <input
