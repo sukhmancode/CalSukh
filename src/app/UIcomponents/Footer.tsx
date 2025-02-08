@@ -9,7 +9,7 @@ export function Footer() {
         <footer className="py-6">
             <div className="flex flex-col md:flex-row p-5 items-center justify-between">
                 <Link href="/" className="flex items-center gap-2">
-                    <Image src={Logo} className="size-10" alt="CalSukh Logo" />
+                    <Image src={Logo} className="size-10" alt="CalSukh Logo" width={40} height={40} />
                     <h4 className="text-3xl font-semibold">Cal<span className="text-blue-500">Sukh</span></h4>
                 </Link>
 

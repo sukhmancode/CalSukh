@@ -46,7 +46,7 @@ export default async function DashboardLayout({children}: {children : ReactNode}
                 <div className="flex h-full max-h-screen flex-col gap-2">
                     <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
                         <Link href={"/"} className="flex gap-2">
-                            <Image src={Logo} alt="logo" className="size-6"></Image>
+                            <Image src={Logo} alt="logo" className="size-6" width={40} height={40}></Image>
                               <h4 className="text-xl font-semibold">Cal
                                 <span className="text-blue-500">Sukh</span>
                               </h4>
@@ -79,7 +79,7 @@ export default async function DashboardLayout({children}: {children : ReactNode}
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button className="p-0 rounded-full">
-                                    <Image alt="user image" src={session?.user?.image as string} className="size-10 rounded-full w-full h-full" />
+                                    <Image alt="user image" src={session?.user?.image as string} className="size-10 rounded-full w-full h-full" width={50} height={50} />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
@@ -91,7 +91,7 @@ export default async function DashboardLayout({children}: {children : ReactNode}
                                 <DropdownMenuItem>
                                     <form action={async() => {
                                         "use server"
-                                        await signOut()
+                                        await signOut();
                                         return redirect("/dashboard");
                                     }}>
                                         <button>Log Out</button>

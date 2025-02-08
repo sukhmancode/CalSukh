@@ -52,7 +52,7 @@ export const GoogleAuthButton = () => {
                     </div>
                 ) : (
                     <Button className="w-full" variant={"outline"}>
-                        <Image src={GoogleLogo} alt="google logo" className="size-5"></Image>Sign In with Google
+                        <Image src={GoogleLogo} alt="google logo" width={20} height={20} className="size-5"></Image>Sign In with Google
                     </Button>
                 )}
             </div>
@@ -76,7 +76,7 @@ export const GithubAuthButton = () => {
                     </div>
                 ) : (
                     <Button className="w-full" variant={"outline"}>
-                        <Image src={GithubLogo} alt="Github logo" className="size-5"></Image>Sign In with Github
+                        <Image src={GithubLogo} alt="Github logo" width={20} height={20} className="size-5"></Image>Sign In with Github
                     </Button>
                 )}
             </div>

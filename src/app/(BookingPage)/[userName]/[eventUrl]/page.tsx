@@ -54,7 +54,6 @@ async function getData(eventUrl: string, userName: string) {
 }
 
 export default async function BookingForm({ params, searchParams }: BookingFormProps) {
-    console.log(params.userName);
     
     if (!params?.userName || !params?.eventUrl) return notFound(); 
     const data = await getData(params.eventUrl, params.userName);
@@ -70,7 +69,7 @@ export default async function BookingForm({ params, searchParams }: BookingFormP
             <Card className="max-w-[1000px] w-full mx-auto p-5">
                 <CardContent className="p-5 md:grid md:grid-cols-[1fr,auto,1fr,auto,1fr] gap-4">
                     <div className="flex flex-col justify-start">
-                        <Image src={data.user?.image as string} alt="user image" className="size-16 rounded-full" />
+                        <Image src={data.user?.image as string}  width={50} height={50} alt="user image" className="size-16 rounded-full" />
                         <p className="text-sm font-medium text-muted-foreground mt-1">{data.user?.userName}</p>
                         <h1 className="font-semibold text-xl mt-1">{data.title}</h1>
                         <p className="text-sm font-medium text-muted-foreground">{data.description}</p>

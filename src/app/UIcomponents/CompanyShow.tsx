@@ -32,6 +32,8 @@ export const CompanyShow = () => {
                   src={company.img}
                   alt={company.name}
                   className="invert"
+                  width={200}
+                  height={200}
                 />
               </div>
             ))}

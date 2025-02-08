@@ -6,7 +6,7 @@ export function Navbar() {
     return (
         <div className="flex p-5 items-center justify-between"> 
             <Link href={"/"} className="flex items-center gap-2">
-                <Image src={Logo} className="size-10" alt="better image"></Image>
+                <Image src={Logo} className="size-10" alt="better image" width={40} height={40}></Image>
                 <h4 className="text-3xl font-semibold">Cal<span className="text-blue-500">Sukh</span></h4>
             </Link>
 

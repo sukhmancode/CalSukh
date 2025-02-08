@@ -13,7 +13,7 @@ export default function onBoardingRouteTwo() {
                     <CardDescription>
                         We have to connect your calender
                     </CardDescription>
-                    <Image src={videoGif} alt="happy video" width={300} className="w-full rounded-md"/>
+                    <Image src={videoGif} alt="happy video" width={300} height={300} className="w-full rounded-md"/>
                 </CardHeader>
                 <CardContent>
                     <Button asChild className="w-full">

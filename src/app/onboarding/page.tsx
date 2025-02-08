@@ -1,4 +1,3 @@
-
 "use client"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -12,7 +11,10 @@ import { onBoardingSchema } from '../lib/zodSchema'
 import { SubmitButtons } from '../components/SubmitButton'
 
 const Onboarding = () => {
-  const [state, action] = useFormState(OnBoardingAction, null);
+  const [state, action] = useFormState<any, FormData>(
+    OnBoardingAction as any,
+    null
+  );
   const [form, fields] = useForm({
     lastResult: state,
     onValidate({formData}) {
@@ -29,7 +31,11 @@ const Onboarding = () => {
           <CardTitle className='text-center text-3xl'>Welcome to Cal<span className='text-primary'>Sukh</span></CardTitle>
           <CardDescription className='text-center'>We need the following information</CardDescription>
         </CardHeader>
-        <form id={form.id} onSubmit={form.onSubmit} action={action}>
+        <form 
+          id={form.id} 
+          onSubmit={form.onSubmit} 
+          action={(formData: FormData) => action(formData)}
+        >
           <CardContent>
             <div className='grid gap-y-2'>
                 <Label  className='text-[16px]'>Full Name</Label>

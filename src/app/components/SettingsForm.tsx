@@ -4,56 +4,75 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { SubmitButtons } from "./SubmitButton";
-import { useActionState} from "react";
+import { useActionState } from "react";
 import { settingsAction } from "../actions";
-import { useForm } from "@conform-to/react";
+import { SubmissionResult, useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { settingsSchema } from "../lib/zodSchema";
 
-interface iAppProps {
-    fullName: string,
-    email: string,
+interface SettingsFormProps {
+    fullName: string;
+    email: string;
 }
-export const SettingsForm = ({email,fullName} : iAppProps) => {
-    const [lastResult,action] = useActionState(settingsAction, null);
 
-    const [form,fields] = useForm({
+export const SettingsForm = ({ email, fullName }: SettingsFormProps) => {
+  
+
+    const [lastResult, action] = useActionState(
+      async (
+        _prevState: SubmissionResult<string[]> | null,
+        formData: FormData
+      ): Promise<SubmissionResult<string[]>> => {
+        return await settingsAction(formData);
+      },
+      null
+    );
+    
+
+    const [form, fields] = useForm({
         lastResult,
-        onValidate({formData}) {
-            return parseWithZod(formData,{
-                schema:settingsSchema
-            })
+        onValidate({ formData }) {
+            return parseWithZod(formData, { schema: settingsSchema });
         },
-        shouldValidate:"onBlur",
-        shouldRevalidate:"onInput"
-     })
+        shouldValidate: "onBlur",
+        shouldRevalidate: "onInput",
+    });
+
     return (
-        <div>
-            <Card>
-                <CardHeader>
-                    <CardTitle>Settings</CardTitle>
-                    <CardDescription>Manage your account settings</CardDescription>
-                </CardHeader>
+        <Card>
+            <CardHeader>
+                <CardTitle>Settings</CardTitle>
+                <CardDescription>Manage your account settings</CardDescription>
+            </CardHeader>
 
-                <form  id={form.id} onSubmit={form.onSubmit} action={action}>
-                    <CardContent className="flex flex-col gap-y-4">
-                        <div className="flex flex-col gap-y-2">
-                            <Label>Full Name</Label>
-                            <Input name={fields.fullName.name} key={fields.fullName.key} defaultValue={fullName} placeholder="Sukhman"/>
-                            <p className="text-red-500">{fields.fullName.errors}</p>
-                        </div>
-                        <div className="flex flex-col gap-y-2">
-                        <Label>Email</Label>
-                         <Input disabled placeholder="test@gmail.com" defaultValue={email}/>
-                        </div>
-                    </CardContent>
+            <form id={form.id} onSubmit={form.onSubmit} action={action} method="post">
+                <CardContent className="flex flex-col gap-y-4">
+                    {/* Full Name Field */}
+                    <div className="flex flex-col gap-y-2">
+                        <Label htmlFor={fields.fullName.id}>Full Name</Label>
+                        <Input
+                            id={fields.fullName.id}
+                            name={fields.fullName.name}
+                            key={fields.fullName.key}
+                            defaultValue={fullName}
+                            placeholder="Enter your full name"
+                        />
+                        {fields.fullName.errors && (
+                            <p className="text-red-500 text-sm">{fields.fullName.errors.join(", ")}</p>
+                        )}
+                    </div>
 
-                    <CardFooter>
-                      <SubmitButtons text="Submit" className='w-full'/>
-                    </CardFooter>
-                </form>
-            </Card>
-            
-        </div>
-    )
-}
+                    {/* Email Field (Read-Only) */}
+                    <div className="flex flex-col gap-y-2">
+                        <Label htmlFor="email">Email</Label>
+                        <Input id="email" disabled placeholder="Email" defaultValue={email} />
+                    </div>
+                </CardContent>
+
+                <CardFooter>
+                    <SubmitButtons text="Submit" className="w-full" />
+                </CardFooter>
+            </form>
+        </Card>
+    );
+};
