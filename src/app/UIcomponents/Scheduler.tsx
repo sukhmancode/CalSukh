@@ -1,5 +1,6 @@
 "use client"
 
+import { Calendar } from "@/components/ui/calendar"
 import { Switch } from "@/components/ui/switch"
 
 export function Scheduler() {
@@ -59,6 +60,7 @@ export function Scheduler() {
                   We'll handle all the cross-referencing, so you don't have to worry
                   about double bookings.
                 </p>
+
               </div>
               <div className="flex min-h-[200px] justify-center">
                 <div className="aspect-video w-full overflow-clip">

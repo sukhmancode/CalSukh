@@ -1,15 +1,18 @@
 
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { auth } from "../lib/auth";
 import prisma from "../lib/db";
 import { EmptyEvent } from "../components/EmptyEvent";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Calendar1Icon, Copy, ExternalLink, Link2, Pen, Settings, Trash, Users2 } from "lucide-react";
+import { Calendar1Icon, ExternalLink, Link2, Pen, Settings, Trash, Users2 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 async function getData(userId:string) {
+    if (!userId) {
+        return redirect("/");
+    }
     const data = await prisma.user.findUnique({
         where:{
             id:userId,
@@ -28,9 +31,11 @@ async function getData(userId:string) {
         }
     })
     if(!data) {
-        return notFound()
+        return redirect("/");
     }
+    else {
     return data;
+    }
 }
 
 const DashboardPage = async() => {

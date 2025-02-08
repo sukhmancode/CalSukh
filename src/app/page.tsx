@@ -5,6 +5,9 @@ import { redirect } from 'next/navigation';
 import { Hero } from './UIcomponents/Hero';
 import { CompanyShow } from './UIcomponents/CompanyShow';
 import { Scheduler } from './UIcomponents/Scheduler';
+import { Benefits } from './UIcomponents/Benefits';
+import { MoreBenefits } from './UIcomponents/MoreBenefits';
+import { Footer } from './UIcomponents/Footer';
 
 export default async function Home() {
   const session = await auth();
@@ -16,7 +19,7 @@ export default async function Home() {
     <>
 
       {/* Navbar and Hero Section */}
-      <div className=" mx-auto px-4 flex flex-col justify-center items-center sm:px-6 lg:px-1"       style={{
+      <div className=" mx-auto px-4 flex flex-col justify-center items-center sm:px-6 lg:px-1" style={{
             backgroundImage: `
               linear-gradient(to right, rgb(229 231 235 / 0.2) 1px, transparent 1px),
               linear-gradient(to bottom, rgb(229 231 235 / 0.2) 1px, transparent 1px)
@@ -28,6 +31,9 @@ export default async function Home() {
             <Hero />
             <CompanyShow />
             <Scheduler />
+            <Benefits/>
+            <MoreBenefits/>
+            <Footer/>
             </div>
        
       </div>
