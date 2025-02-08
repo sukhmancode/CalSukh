@@ -6,7 +6,7 @@ import { Card, CardDescription, CardHeader } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
-const InputWithBounce = ({ placeholder }:{placeholder:any}) => {
+const InputWithBounce = ({ placeholder }:{placeholder:string}) => {
   return (
     <motion.div
       className="overflow-clip"

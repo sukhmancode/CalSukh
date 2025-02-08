@@ -1,8 +1,8 @@
 "use client"
 
-import { Calendar } from "@/components/ui/calendar"
 import { Switch } from "@/components/ui/switch"
-
+import Image from "next/image"
+import Logo from "../../../public/logo.png"
 export function Scheduler() {
     return (
         <section className="mx-3 md:mx-0">
@@ -57,7 +57,7 @@ export function Scheduler() {
                 </span>
                 <p className="text-md mb-1.5 font-semibold">Connect your calendar</p>
                 <p className="text-content-subtle max-w-[300px] text-[#898989] text-[16px]">
-                  We'll handle all the cross-referencing, so you don't have to worry
+                  We&apos;ll handle all the cross-referencing, so you don&apos;t have to worry
                   about double bookings.
                 </p>
 
@@ -312,7 +312,7 @@ export function Scheduler() {
                       </span>
                     </div>
                     <div className="shadow-fade h-auto w-[25%] rounded-full px-4 py-3">
-                      <img src="/logo.svg" alt="logo" className="h-auto w-full" />
+                      <Image src={Logo} alt="logo" width={100} height={100} />
                     </div>
                   </div>
                 </div>

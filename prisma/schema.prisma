@@ -23,7 +23,7 @@ model User {
   userName  String?   @unique
   grantId   String?
   grantEmail  String?
-  availabilty Availability[]
+  availability Availability[]
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   eventType EventType[]

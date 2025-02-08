@@ -38,7 +38,7 @@ const session = await auth()
     
  }
 export default async function DashboardLayout({children}: {children : ReactNode}) {
-    const data = await getData(session?.user?.id as string)
+    await getData(session?.user?.id as string)
     return (
         <>
           <div className="min-h-screen w-full grid md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -79,7 +79,7 @@ export default async function DashboardLayout({children}: {children : ReactNode}
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button className="p-0 rounded-full">
-                                    <img src={session?.user?.image as string} className="size-10 rounded-full w-full h-full" />
+                                    <Image alt="user image" src={session?.user?.image as string} className="size-10 rounded-full w-full h-full" />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">

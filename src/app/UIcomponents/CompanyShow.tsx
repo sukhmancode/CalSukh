@@ -19,10 +19,10 @@ export const CompanyShow = () => {
         Trusted by fast-growing companies around the world
       </p>
 
-      <div className="relative w-full flex whitespace-nowrap">
+      <div className="relative w-full flex ">
         <div className="flex animate-scroll items-center justify-center gap-6">
           {companyImages
-            .concat(companyImages.map((company, index) => ({
+            .concat(companyImages.map((company) => ({
               ...company,
               id: company.id + companyImages.length,
             })))

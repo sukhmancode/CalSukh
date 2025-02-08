@@ -21,7 +21,7 @@ async function getData(eventUrl: string, userName: string) {
             url: eventUrl,
             active: true,
             user: {
-                userName: userName,
+                 userName,
             },
         },
         select: {
@@ -35,7 +35,7 @@ async function getData(eventUrl: string, userName: string) {
                     id: true,
                     userName: true,
                     image: true,
-                    availabilty: {
+                    availability: {
                         select: {
                             day: true,
                             isActive: true,
@@ -53,6 +53,9 @@ async function getData(eventUrl: string, userName: string) {
 }
 
 export default async function BookingForm({ params, searchParams }: BookingFormProps) {
+    console.log(params.userName);
+    
+    if (!params?.userName || !params?.eventUrl) return notFound(); 
     const data = await getData(params.eventUrl, params.userName);
     const selectedDate = searchParams.date ? new Date(searchParams.date) : new Date();
     const formattedDate = new Intl.DateTimeFormat("en-US", {
@@ -87,7 +90,7 @@ export default async function BookingForm({ params, searchParams }: BookingFormP
                         </div>
                     </div>
                     <Separator orientation="vertical" className="h-full w-[1px]" />
-                    <RenderCalendar availability={data.user?.availabilty || []} />
+                    <RenderCalendar availability={data.user?.availability || []} />
                     <Separator orientation="vertical" className="h-full w-[1px]" />
                 </CardContent>
             </Card>

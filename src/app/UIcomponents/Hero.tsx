@@ -1,6 +1,5 @@
-import { ArrowBigDown, ArrowBigRightDash, ArrowBigRightIcon } from 'lucide-react';
+import {ArrowBigRightIcon } from 'lucide-react';
 import { AuthButtons } from '../components/AuthButtons';
-import { AuthModal } from '../components/AuthModal';
 import { Calendar } from '../components/Calender';
 
 export const Hero = () => {

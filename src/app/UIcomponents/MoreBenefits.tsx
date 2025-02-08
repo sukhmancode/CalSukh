@@ -10,6 +10,7 @@ type Benefit = {
 };
 
 export function MoreBenefits() {
+  const [isHovered, setIsHovered] = useState<number | null>(null);
   const benefits: Benefit[] = [
     {
       title: "Accept payments",
@@ -100,22 +101,21 @@ export function MoreBenefits() {
       </h1>
       <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {benefits.map((benefit) => {
-          const [isHovered, setIsHovered] = useState(false);
           return (
             <motion.div
               key={benefit.id}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
+              onMouseEnter={() => setIsHovered(benefit.id)}
+              onMouseLeave={() => setIsHovered(null)}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 10 }}
               transition={{ duration: 0.3 }}
               className="bg-secondary p-6 rounded-lg flex flex-col items-center gap-2 transition-all hover:shadow-lg"
             >
               <div className="bg-secondary/50 p-4 rounded-lg">
-                {!isHovered && (
+                {isHovered !== benefit.id && (
                   <motion.p
                     initial={{ opacity: 1, y: 10 }}
-                    animate={isHovered ? { opacity: 0, y: -10 } : { opacity: 1, y: 10 }}
+                    animate={isHovered === benefit.id ? { opacity: 0, y: -10 } : { opacity: 1, y: 10 }}
                     transition={{ duration: 0.5 }}
                   >
                     {benefit.icon}
@@ -123,15 +123,15 @@ export function MoreBenefits() {
                 )}
               </div>
               <h2 className="text-2xl font-semibold">{benefit.title}</h2>
-              {isHovered && (
-                <motion.p
-                  className="text-center text-sm font-medium text-inherit mt-2"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={isHovered ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  {benefit.description}
-                </motion.p>
+            {isHovered=== benefit.id && (
+              <motion.p
+                className="text-center text-sm font-medium text-inherit mt-2"
+                initial={{ opacity: 0, y: 10 }}
+                animate={isHovered === benefit.id ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                transition={{ duration: 0.5 }}
+              >
+                {benefit.description}
+              </motion.p>
               )}
             </motion.div>
           );
