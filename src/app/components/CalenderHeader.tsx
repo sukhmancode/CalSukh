@@ -17,7 +17,7 @@ export function CalenderHeader({state,calendarProps,prevButtonProps,nextButtonPr
         year:"numeric",
         timeZone:state.timeZone 
     })
-    const [monthName,_,year] = monthDateFormatter.formatToParts(state.visibleRange.start.toDate(state.timeZone)).map((part) => part.value)
+    const [monthName,year] = monthDateFormatter.formatToParts(state.visibleRange.start.toDate(state.timeZone)).map((part) => part.value)
 
     return (
         <div className='flex items-center p-4'>

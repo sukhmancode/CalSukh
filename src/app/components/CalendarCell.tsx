@@ -15,8 +15,8 @@ export function CalendarCell({
     currentMonth: CalendarDate;
     isUnavailable?:boolean
 }) {
-    let ref = useRef(null);
-    let {
+    const ref = useRef(null);
+    const {
         cellProps,
         buttonProps,
         isSelected,
@@ -26,7 +26,7 @@ export function CalendarCell({
 
     const { focusProps, isFocusVisible } = useFocusRing();
     const isDateToday = isToday(date, getLocalTimeZone());
-    const isOutsideMonth = !isSameMonth(currentMonth, date); // Fixed logic
+    const isOutsideMonth = !isSameMonth(currentMonth, date); 
     const finallyDisabled = isDisabled || isUnavailable
 
     return (

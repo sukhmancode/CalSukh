@@ -35,7 +35,7 @@ export async function OnBoardingAction(prevState: any, formData: FormData) {
             data: {
                 userName: result.value.userName,
                 name: result.value.fullName,
-                availabilty: {
+                availability: {
                     createMany: {
                         data:[
                             {day:"Monday",fromTime:"08:00",tillTime:"18:00"},
