@@ -1,73 +1,106 @@
-"use client";
-
 import { availabilityAction } from "@/app/actions";
 import { SubmitButtons } from "@/app/components/SubmitButton";
+import { auth } from "@/app/lib/auth";
+import prisma from "@/app/lib/db";
 import { times } from "@/app/lib/times";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { useActionState } from "react";
+import { notFound } from "next/navigation";
+import React from "react";
 
-export default function AvailabilityForm({ data }: { data: any[] }) {
-    const [state, formAction] = useActionState(availabilityAction, null);
+async function getData(userId: string) {
+  const data = await prisma.availability.findMany({
+    where: {
+      userId: userId,
+    },
+  });
 
-    return (
-        <div>
-            <Card>
-                <CardHeader>
-                    <CardTitle>Availability</CardTitle>
-                    <CardDescription>Manage your availability settings</CardDescription>
-                </CardHeader>
+  if (!data) {
+    return notFound();
+  }
 
-                <form action={formAction}>
-                    <CardContent>
-                        {data.map((item) => (
-                            <div key={item.id} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 items-center gap-4">
-                                <input type="hidden" name={`id-${item.id}`} value={item.id} />
-
-                                <div className="flex items-center gap-4">
-                                    <Switch defaultChecked={item.isActive} name={`isActive-${item.id}`} />
-                                    <p>{item.day}</p>
-                                </div>
-
-                                <Select name={`fromTime-${item.id}`} defaultValue={item.fromTime}>
-                                    <SelectTrigger className="w-full flex gap-3">
-                                        <SelectValue placeholder="From Time" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            {times.map((time) => (
-                                                <SelectItem value={time.time} key={time.id}>
-                                                    {time.time}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-
-                                <Select name={`tillTime-${item.id}`} defaultValue={item.tillTime}>
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Till Time" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            {times.map((time) => (
-                                                <SelectItem value={time.time} key={time.id}>
-                                                    {time.time}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                        ))}
-                    </CardContent>
-
-                    <CardFooter>
-                        <SubmitButtons text="Save Changes" className="w-full" />
-                    </CardFooter>
-                </form>
-            </Card>
-        </div>
-    );
+  return data;
 }
+
+const AvailabilityPage = async () => {
+  const session = await auth();
+  const data = await getData(session?.user?.id as string);
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Availability</CardTitle>
+        <CardDescription>
+          In this section you can manage your availability.
+        </CardDescription>
+      </CardHeader>
+      <form action={availabilityAction}>
+        <CardContent className="flex flex-col gap-y-4">
+          {data.map((item) => (
+            <div
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 items-center gap-4"
+              key={item.id}
+            >
+              <input type="hidden" name={`id-${item.id}`} value={item.id} />
+              <div className="flex items-center gap-x-3">
+                <Switch
+                  name={`isActive-${item.id}`}
+                  defaultChecked={item.isActive}
+                />
+                <p>{item.day}</p>
+              </div>
+              <Select name={`fromTime-${item.id}`} defaultValue={item.fromTime}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="From Time" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {times.map((time) => (
+                      <SelectItem key={time.id} value={time.time}>
+                        {time.time}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              <Select name={`tillTime-${item.id}`} defaultValue={item.tillTime}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="To Time" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {times.map((time) => (
+                      <SelectItem key={time.id} value={time.time}>
+                        {time.time}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+          ))}
+        </CardContent>
+        <CardFooter>
+          <SubmitButtons className="w-full" text="Save Changes" />
+        </CardFooter>
+      </form>
+    </Card>
+  );
+};
+
+export default AvailabilityPage;

@@ -4,7 +4,7 @@ import { auth } from "./lib/auth";
 import prisma from "./lib/db";
 import { parseWithZod } from "@conform-to/zod";
 import { eventTypeSchema, onBoardingSchemaValidation, settingsSchema } from "./lib/zodSchema";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
 export async function OnBoardingAction(prevState: any, formData: FormData) {
@@ -74,44 +74,43 @@ export async function settingsAction(formData: FormData) {
 }
 
 
-export async function availabilityAction(prevState:any,formData: FormData) {
+export async function availabilityAction(formData: FormData):Promise<void> {
     const session = await auth();
-    if (!session || !session.user?.id) {
-        return { status: "error", error: { _form: ["Authentication required"] } };
+    if(!session?.user) {
+        return notFound();
     }
-
     const rawData = Object.fromEntries(formData.entries());
-    const availabiltyData = Object.keys(rawData)
-        .filter((key) => key.startsWith("id-"))
-        .map((key) => {
-            const id = key.replace("id-", "");
-            return {
-                id,
-                isActive: rawData[`isActive-${id}`] === "on",
-                fromTime: rawData[`fromTime-${id}`] as string,
-                tillTime: rawData[`tillTime-${id}`] as string, // FIXED CASE SENSITIVITY
-            };
-        });
-
+    const availabilityData = Object.keys(rawData)
+      .filter((key) => key.startsWith("id-"))
+      .map((key) => {
+        const id = key.replace("id-", "");
+        return {
+          id,
+          isActive: rawData[`isActive-${id}`] === "on",
+          fromTime: rawData[`fromTime-${id}`] as string,
+          tillTime: rawData[`tillTime-${id}`] as string,
+        };
+      });
+  
     try {
-        await prisma.$transaction(
-            availabiltyData.map((item) =>
-                prisma.availability.update({
-                    where: { id: item.id },
-                    data: {
-                        isActive: item.isActive,
-                        fromTime: item.fromTime,
-                        tillTime: item.tillTime,
-                    },
-                })
-            )
-        );
-        revalidatePath("/dashboard/availability");
+      await prisma.$transaction(
+        availabilityData.map((item) =>
+          prisma.availability.update({
+            where: { id: item.id },
+            data: {
+              isActive: item.isActive,
+              fromTime: item.fromTime,
+              tillTime: item.tillTime,
+            },
+          })
+        )
+      );
+  
+      revalidatePath("/dashboard/availability");
     } catch (error) {
-        console.log(error);
+      console.error("Error updating availability:", error);
     }
-}
-
+  }
 import { SubmissionResult } from "@conform-to/react";
 
 export const eventCreationAction = async (
