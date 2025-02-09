@@ -8,8 +8,8 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   typescript: {
-    ignoreBuildErrors: true,
-  },
+    ignoreBuildErrors:true
+  }
 };
 
 export default nextConfig;
