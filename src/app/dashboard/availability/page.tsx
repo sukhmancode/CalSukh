@@ -1,3 +1,5 @@
+
+
 import { availabilityAction } from "@/app/actions";
 import { SubmitButtons } from "@/app/components/SubmitButton";
 import { auth } from "@/app/lib/auth";
@@ -37,7 +39,7 @@ async function getData(userId: string) {
   return data;
 }
 
-const AvailabilityPage = async () => {
+export const AvailabilityPage = async () => {
   const session = await auth();
   const data = await getData(session?.user?.id as string);
 

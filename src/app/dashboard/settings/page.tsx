@@ -20,11 +20,11 @@ async function GETDATA(id:string) {
     return data;
 }
 
-const Settings = async() => {
+export const Settings = async() => {
     const session = await auth();
     const data = await GETDATA(session?.user?.id as string);
   return (
-    <SettingsForm fullName={data.name as string} email={data.email}  />
+    <SettingsForm fullName={data.name as string} email={data.email as string}  />
   )
 }
 

@@ -1,9 +1,7 @@
-import React from 'react'
+export function Meetings() {
+    return (
+        <div>
 
-const Meetings = () => {
-  return (
-    <div>Meetings</div>
-  )
+        </div>
+    )
 }
-
-export default Meetings
