@@ -6,12 +6,13 @@ import { BookMarked, CalendarX2, Clock } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import React from "react";
+import { TimeTables } from "@/app/components/TimeTables";
 
-async function getData(username: string, eventName: string) {
+async function getData(userName: string, eventName: string) {
   const eventType = await prisma.eventType.findFirst({
     where: {
       url: eventName,
-      user: { userName: username },
+      user: { userName: userName },
       active: true,
     },
     select: {
@@ -42,10 +43,10 @@ export default async function BookingPage({
   params,
   searchParams,
 }: {
-  params: { username: string; eventName: string };
+  params: { userName: string; eventName: string };
   searchParams: { date?: string; time?: string };
 }) {
-  const eventType = await getData(params.username, params.eventName);
+  const eventType = await getData(params.userName, params.eventName);
   return <BookingPageContent eventType={eventType} searchParams={searchParams} />;
 }
 
@@ -156,8 +157,10 @@ function BookingPageContent({
               <div className="my-4 md:my-0">
                 <RenderCalendar availability={eventType.user.availability ?? []} />
               </div>
+              
             )}
             <Separator orientation="vertical" className="hidden md:block h-full w-[1px]" />
+      <TimeTables selectedDate={selectedDate} userName={eventType.user.userName}/>
           </CardContent>
         </Card>
       )}

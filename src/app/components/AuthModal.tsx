@@ -5,7 +5,7 @@ import Logo from "../../../public/logo.png"
 import { AuthButtons } from "./AuthButtons";
 export function AuthModal() {
     return(
-        <div>
+        <>
             <Dialog>
                 <DialogTrigger asChild>
                     <Button>Try for free</Button>
@@ -20,6 +20,6 @@ export function AuthModal() {
                     <AuthButtons/>
                 </DialogContent>
             </Dialog>
-        </div>
+        </>
     )
 }

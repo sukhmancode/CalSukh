@@ -1,7 +1,7 @@
-export function Meetings() {
+export default function Meetings() {
     return (
         <div>
-
+            Meetings
         </div>
     )
 }
