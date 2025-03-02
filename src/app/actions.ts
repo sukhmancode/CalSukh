@@ -2,61 +2,86 @@
 import { auth } from "./lib/auth";
 import prisma from "./lib/db";
 import { parseWithZod } from "@conform-to/zod";
-import { eventTypeSchema, onBoardingSchemaValidation, settingsSchema } from "./lib/zodSchema";
+import { eventTypeSchema ,settingsSchema, onboardingSchema } from "./lib/zodSchema";
 import { notFound, redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { SubmissionResult } from "@conform-to/react";
 import { nylas } from "./lib/nylas";
-export async function OnBoardingAction(formData: FormData) {
-    try {
-        const session = await auth();
-        if (!session?.user?.id) {
-            return { status: "error", error: { _form: ["Authentication required"] } };
-        }
-
-        const result = await parseWithZod(formData, {
-            schema: onBoardingSchemaValidation({
-                async isUsernameUnique(userName: string) {
-                    const existingUser = await prisma.user.findUnique({ where: { userName } });
-                    return !existingUser;
-                },
-            }),
-            async: true,
-        });
-
-        if (result.status !== "success") {
-            return result.reply();
-        }
-
-        await prisma.user.update({
-            where: { id: session.user.id },
-            data: {
-                userName: result.value.userName,
-                name: result.value.fullName,
-                availability: {
-                    createMany: {
-                        data: [
-                            { day: "Monday", fromTime: "08:00", tillTime: "18:00" },
-                            { day: "Tuesday", fromTime: "08:00", tillTime: "18:00" },
-                            { day: "Wednesday", fromTime: "08:00", tillTime: "18:00" },
-                            { day: "Thursday", fromTime: "08:00", tillTime: "18:00" },
-                            { day: "Friday", fromTime: "08:00", tillTime: "18:00" },
-                            { day: "Saturday", fromTime: "08:00", tillTime: "18:00" },
-                            { day: "Sunday", fromTime: "08:00", tillTime: "18:00" },
-                        ],
-                    },
-                },
+export async function onboardingAction(prevState: any, formData: FormData) {
+    const session = await auth();
+  
+    const submission = await parseWithZod(formData, {
+      schema: onboardingSchema({
+        async isUsernameUnique() {
+          const exisitngSubDirectory = await prisma.user.findUnique({
+            where: {
+              userName: formData.get("username") as string,
             },
-        });
-
-        return redirect("/onboarding/grant-id");
-
-    } catch (error) {
-        if (error instanceof Response) throw error;
-        return { status: "error", error: { _form: ["Something went wrong"] } };
+          });
+          return !exisitngSubDirectory;
+        },
+      }),
+  
+      async: true,
+    });
+  
+    if (submission.status !== "success") {
+      return submission.reply();
     }
-}
-
+  
+    const OnboardingData = await prisma.user.update({
+      where: {
+        id: session?.user?.id,
+      },
+      data: {
+        userName: submission.value.username,
+        name: submission.value.fullName,
+        availability: {
+          createMany: {
+            data: [
+              {
+                day: "Monday",
+                fromTime: "08:00",
+                tillTime: "18:00",
+              },
+              {
+                day: "Tuesday",
+                fromTime: "08:00",
+                tillTime: "18:00",
+              },
+              {
+                day: "Wednesday",
+                fromTime: "08:00",
+                tillTime: "18:00",
+              },
+              {
+                day: "Thursday",
+                fromTime: "08:00",
+                tillTime: "18:00",
+              },
+              {
+                day: "Friday",
+                fromTime: "08:00",
+                tillTime: "18:00",
+              },
+              {
+                day: "Saturday",
+                fromTime: "08:00",
+                tillTime: "18:00",
+              },
+              {
+                day: "Sunday",
+                fromTime: "08:00",
+                tillTime: "18:00",
+              },
+            ],
+          },
+        },
+      },
+    });
+  
+    return redirect("/onboarding/grant-id");
+  }
 export async function settingsAction(formData: FormData) {
     try {
         const session = await auth();

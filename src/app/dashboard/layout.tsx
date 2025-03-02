@@ -30,10 +30,15 @@ async function getData(userId: string | undefined) {
 }
 
 export default async function DashboardLayout({ children }: { children: ReactNode }) {
-    const session = await auth(); // Move auth call inside function
-    if (!session?.user?.id) return redirect("/"); // Redirect if no user session
+    const session = await auth();
+    
+    // Redirect if no user session
+    if (!session?.user?.id) return redirect("/");
 
-    await getData(session.user.id);
+    // Fetch user data only if a session exists
+    const userData = await getData(session.user.id);
+    
+    if (!userData) return null; // Prevent further execution if redirected
 
     return (
         <div className="min-h-screen w-full grid md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
