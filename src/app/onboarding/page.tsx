@@ -2,8 +2,7 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import React from 'react'
-import {  useFormState } from 'react-dom'
+import React, { useActionState } from 'react'
 import { OnBoardingAction } from '../actions'
 import { useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
@@ -11,7 +10,7 @@ import { onBoardingSchema } from '../lib/zodSchema'
 import { SubmitButtons } from '../components/SubmitButton'
 
 const Onboarding = () => {
-  const [state, action] = useFormState<any, FormData>(
+  const [state, action] = useActionState<any, FormData>(
     OnBoardingAction as any,
     null
   );

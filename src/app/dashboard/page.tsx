@@ -5,9 +5,10 @@ import prisma from "../lib/db";
 import { EmptyEvent } from "../components/EmptyEvent";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Calendar1Icon, ExternalLink, Link2, Pen, Settings, Trash, Users2 } from "lucide-react";
-import { Switch } from "@/components/ui/switch";
+import { Calendar1Icon, ExternalLink, Pen, Settings, Trash, Users2 } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { CopyLinkMenu } from "../components/CopyLinkMenu";
+import { MenuEventSwitch } from "../components/EventTypeSwitcher";
 
 async function getData(userId:string) {
     if (!userId) {
@@ -83,18 +84,21 @@ export default async function Dashboard() {
 
                                                 </Link>
                                             </DropdownMenuItem>
-                                            <DropdownMenuItem>
-                                                <Link2  className="mr-2 size-4"/>
-                                                Copy
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem>
+                                            
+                                            <CopyLinkMenu meetingUrl={`${process.env.NEXT_PUBLIC_URL}/${data.userName}/${item.url}`} />
+                                            <DropdownMenuItem asChild>
+                                                <Link href={`/dashboard/event/${item.id}`}>
                                                 <Pen className="mr-2 size-4"/>
                                                 Edit
+                                                </Link>
                                             </DropdownMenuItem>
                                             <DropdownMenuSeparator/>
-                                            <DropdownMenuItem>
+                                            <DropdownMenuItem asChild>
+                                                <Link href={`/dashboard/event/${item.id}/delete`}>
                                                 <Trash className="mr-2 size-4"/>
                                                 Trash
+                                                </Link>
+                                              
                                             </DropdownMenuItem>
                                         </DropdownMenuGroup>
                                     </DropdownMenuContent>
@@ -112,8 +116,11 @@ export default async function Dashboard() {
                                 </div>
                             </Link>
                             <div className="bg-muted flex items-center justify-between px-5 py-3">
-                                <Switch/>
-                                <Button>Edit Event</Button>
+                                <MenuEventSwitch initialChecked={item.active} eventTypeId={item.id}/>
+                                <Button asChild>
+                                    <Link href={`/dashboard/event/${item.id}`}>
+                                    Edit Event
+                                    </Link></Button>
                             </div>
                         </div>
                     ))}

@@ -15,9 +15,9 @@ import {  useActionState, useState } from "react";
 
  export const New = () => {
 
-    type VideoCallProvider = "Meet" | "Zoom" | "Microsoft Teams"
-    const [activeMeetingProvider,setActiveMeetingProvider] = useState<VideoCallProvider>("Meet");
-    const providers: VideoCallProvider[] = ["Meet", "Zoom", "Microsoft Teams"];
+    type VideoCallProvider = "Google Meet"
+    const [activeMeetingProvider,setActiveMeetingProvider] = useState<VideoCallProvider>("Google Meet");
+    const providers: VideoCallProvider[] = ["Google Meet"];
     const [lastResult,action] = useActionState(eventCreationAction,null)
     const [form,fields] = useForm(
         {lastResult, onValidate({formData}) {
