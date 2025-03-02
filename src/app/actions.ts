@@ -49,8 +49,7 @@ export async function OnBoardingAction(formData: FormData) {
             },
         });
 
-        redirect("/onboarding/grant-id");
-        return; // Ensures no further execution
+        return redirect("/onboarding/grant-id");
 
     } catch (error) {
         if (error instanceof Response) throw error;
@@ -72,8 +71,8 @@ export async function settingsAction(formData: FormData) {
             data: { name: submission.value.fullName as string },
         });
 
-        redirect("/dashboard");
-        return;
+        return redirect("/dashboard");
+       
 
     } catch (error) {
         return { status: "error", error: { _form: ["Something went wrong"] } };
@@ -155,7 +154,7 @@ export const eventCreationAction = async (
             },
         });
 
-        redirect("/dashboard")
+      return  redirect("/dashboard")
     } catch (error) {
         return { status: "error", error: { _form: ["Something went wrong"] },};
     }
