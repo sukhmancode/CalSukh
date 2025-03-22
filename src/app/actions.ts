@@ -244,7 +244,7 @@ export async function CreateMeetingAction(formData: FormData) {
             },
         });
 
-       return redirect("/success");
+       return redirect("/dashboard");
 
     } catch (error) {
         console.error("Error creating meeting:", error);
