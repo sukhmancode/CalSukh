@@ -20,7 +20,7 @@ export function Footer() {
 
             <div className="flex items-center justify-center mt-4">
                 <h3 className="font-medium">
-                    MADE WITH <span className="inline-flex items-center text-red-500 mx-1"><Heart size={18} /></span> By Sukhi Don!
+                    MADE WITH <span className="inline-flex items-center text-red-500 mx-1"><Heart size={18} /></span> By Sukhman!
                 </h3>
             </div>
         </footer>
